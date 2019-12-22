@@ -1,0 +1,38 @@
+{% extends "Adminform.html" %}
+{% block content %}
+
+
+<div class="container-fluid">
+  <div class="row content">
+    <div class="col-sm-3 sidenav">
+      <h4>Categories</h4>
+            {% for x in cat.query.all() %}
+                {{x.cat_name}}
+        <br><br>
+            {% endfor %}
+      <ul class="nav nav-pills nav-stacked">
+      </ul><br>
+        <div class="input-group">
+        <span class="input-group-btn">
+          <a href="{{url_for('catadd')}}" class="btn btn-default" type="button">
+            <span class="glyphicon glyphicon-plus">Add</span>
+          </a>
+          </span><br><br>
+            <span class="input-group-btn">
+          <a href="{{url_for('catdel')}}" class="btn btn-default" type="button">
+            <span class="glyphicon glyphicon-trash">Delete</span>
+          </a>
+          </span><br><br>
+            <span class="input-group-btn">
+          <a href="#" class="btn btn-default" type="button">
+            <span class="glyphicon glyphicon-edit">Edit</span>
+          </a>
+          </span><br><br>
+      </div>
+    </div>
+  </div>
+</div>
+<br><br>
+
+
+{% endblock %}

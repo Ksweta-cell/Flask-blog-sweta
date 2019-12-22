@@ -1,0 +1,37 @@
+{% extends 'Adminform.html' %}
+
+{% block content %}
+<body>
+
+<form action="{{url_for('postsubmit')}}" method="post" class="form-class">
+  <div class="container">
+    <h1>Post</h1>
+    <hr>
+
+    <label for="title"><b>Title</b></label>
+    <input type="text" name="title" value="title"><br><br>
+
+    <label for="category"><b>Category</b></label>
+    <select name="category">
+            {% for x in cat.query.all() %}
+                 <option value="{{x.cat_name}}">{{x.cat_name}}
+            {% endfor %}
+    </select><br><br>
+
+    <label for="author"><b>Author</b></label>
+    <input type="text" placeholder="Author" name="author" required><br><br>
+
+    <label for="time"><b>Time</b></label>
+    <input type="text" placeholder="Time" name="time" required><br><br>
+
+    <label for="desc"><b>Description</b></label>
+    <textarea placeholder="Description" name="desc" rows="25" cols="40" required></textarea>
+    <hr>
+
+    <button type="submit" class="add">submit</button>
+  </div>
+</form>
+
+</body>
+
+{% endblock %}

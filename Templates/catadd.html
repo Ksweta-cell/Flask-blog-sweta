@@ -1,0 +1,22 @@
+{% extends 'Adminform.html' %}
+
+{% block content %}
+<body>
+
+<form action="{{url_for('catsubmit')}} " method="post">
+  <div class="container">
+    <h1>Category</h1>
+    <hr>
+
+    <label for="category"><b>Category</b></label>
+    <input type="text" placeholder="category" name="category" required><br><br>
+
+    <hr>
+
+    <button type="submit" class="add">submit</button>
+  </div>
+</form>
+
+</body>
+
+{% endblock %}

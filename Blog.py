@@ -10,6 +10,13 @@ app.config['SECRET_KEY'] = "ABC"
 app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:root@localhost/universe"
 
 db = SQLAlchemy(app)
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USERNAME'] = 'misssweta0786@gmail.com'
+app.config['MAIL_PASSWORD'] = 'kumar_ashish@#?123'
 mail = Mail(app)
 
 from Model import *
@@ -91,12 +98,30 @@ def sendmail():
             comm = Comment(request.form['email'], request.form['subject'], request.form['message'])
             db.session.add(comm)
             db.session.commit()
-            msg = Message(subject=request.form['subject'], sender=request.form['email'], recipients=['misssweta0786@gmail.com'])
+            print('1')
+            msg = Message(request.form['subject'], sender='misssweta0786@gmail.com', recipients=[request.form['email']])
             msg.body = request.form['message']
+            print('2')
             mail.send(msg)
+            print('3')
             return '<center><h2>Mail successfully sent</h2</center>'
     except Exception as e:
         return render_template('Error.html', msg=e)
+
+
+@app.route('/subscribe/', methods=['POST'])
+def subscribe():
+    if request.method == 'POST':
+        sub_email = Subscribe(request.form['email'])
+        db.session.add(sub_email)
+        db.session.commit()
+        msg1 = Message(subject='Subscribe', sender='misssweta0786@gmail.com', recipients=['misssweta0786@gmail.com'])
+        msg1.body = request.form['email'] + ' has subscribed'
+        msg2 = Message(subject='Subscribe', sender='misssweta0786@gmail.com', recipients=[request.form['email']])
+        msg2.body = "You subscribed our channel. Thank You!!"
+        mail.send(msg1)
+        mail.send(msg2)
+        return 'Subscribed'
 
 
 @app.route('/category/')
@@ -135,7 +160,16 @@ def postsubmit():
             db.session.add(post)
             post.blogger.append(cat)
             db.session.commit()
-            return 'successfully post submitted'
+            sub = db.session.query(Subscribe.subscriber).all()
+            sub_list = []
+            with mail.connect() as con:
+                for x in range(len(sub)):
+                    sub_list.append({'email': sub[x][0]})
+                for s in sub_list:
+                    msg = Message(subject='New post', sender='misssweta0786@gmail.com', recipients=[s['email']])
+                    msg.body = "New post has submitted recently. Check it out!!"
+                    con.send(msg)
+                return 'successfully post submitted'
     except Exception as e:
         return render_template('Error.html', msg=e)
 
@@ -159,7 +193,6 @@ def catsubmit():
 
     except Exception as e:
         return render_template('Error.html', msg=e)
-
 
 
 @app.route('/readmore/')

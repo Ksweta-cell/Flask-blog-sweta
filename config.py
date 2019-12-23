@@ -11,5 +11,5 @@ def app1():
     locapp.config['MAIL_USE_SSL'] = True
     locapp.config['MAIL_USE_TLS'] = False
     locapp.config['MAIL_USERNAME'] = 'misssweta0786@gmail.com'
-    locapp.config['MAIL_PASSWORD'] = 'kumar_ashish@#?123'
+    locapp.config['MAIL_PASSWORD'] = '**********'
     return locapp

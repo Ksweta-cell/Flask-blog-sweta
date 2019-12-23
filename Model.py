@@ -49,3 +49,11 @@ class Post(db.Model):
         self.post_title = post_title
         self.post_desc = post_desc
         self.post_author = post_author
+
+
+class Subscribe(db.Model):
+    sub_id = db.Column(db.Integer, primary_key=True)
+    subscriber = db.Column(db.String(50))
+
+    def __init__(self, subscriber=""):
+        self.subscriber = subscriber

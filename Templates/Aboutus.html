@@ -1,4 +1,14 @@
 {% extends "index.html" %}
-{% block navbar %}
+{% block content %}
+
+<center><h2>Hello all </h2>
+<h5>Name : Sweta Kumari <br>
+Email id : misssweta0786@gmail.com <br>
+Mobile No : 9973695263</h5>
+    <form action="{{url_for('subscribe')}}" method="post">
+        Your Email id : <input type="text"  name="email" placeholder="email">
+        <input type="submit" name="submit" value="subscribe" style="color:red">
+    </form>
+</center>
 
 {% endblock %}

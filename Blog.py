@@ -22,7 +22,7 @@ mail = Mail(app)
 from Model import *
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'GET':
         cate = request.args.get('cate')
@@ -32,13 +32,13 @@ def index():
             return render_template('index.html', post=cat.cat_rel, category=Category.query.all())
         else:
             post_count = 4
-            posts = Post.query.all()
-            last = math.ceil(len(posts)/post_count)
+            post = Post.query.all()
+            last = math.ceil(len(post)/post_count)
             page = request.args.get('page')
             if not str(page).isnumeric():
                 page = 1
             page = int(page)
-            posts = posts[(page-1)*post_count:(page-1)*post_count+post_count]
+            post = post[(page-1)*post_count:(page-1)*post_count+post_count]
             if page == 1:
                 prev = '#'
                 next = "/?page=" + str(page+1)
@@ -48,7 +48,7 @@ def index():
             else:
                 prev = "/?page=" + str(page-1)
                 next = "/?page=" + str(page+1)
-            return render_template('index.html', post=Post.query.all(), category=Category.query.all(), posts=posts, prev=prev, next=next)
+            return render_template('index.html', category=Category.query.all(), post=post, prev=prev, next=next)
 
     elif request.methods == 'POST':
         try:

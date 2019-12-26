@@ -3,7 +3,7 @@
 
 <form action="{{url_for('sendmail')}}" method="post">
     <table class="table">
-        {% for field in form  %}
+        {% for field in form if form.label != 'csrf token' %}
         <tr><td>{{field.label}}</td>
         <td>{{field}}</td>
         </tr>
